@@ -8,13 +8,20 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
+  devToolbar: {
+    enabled: false,
+  },
+  output: 'hybrid',
   adapter: cloudflare({
     platformProxy: {
       enabled: true
     }
   }),
-
+  vite: {
+    ssr: {
+      external: ['node:buffer'],
+    },
+  },
   integrations: [
     vue(),
     tailwind(),

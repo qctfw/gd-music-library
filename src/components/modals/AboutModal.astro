@@ -1,0 +1,42 @@
+---
+const { class: className, ...rest } = Astro.props
+---
+
+<aside class:list={['fixed inset-0 flex items-center justify-center w-[100dvw] h-[100dvh] bg-slate-900 bg-opacity-35', className]} role="dialog" aria-modal="true" {...rest}>
+    <div class="w-4/5 xl:w-1/2 relative flex flex-col gap-8 items-center p-8 bg-slate-900 rounded-lg">
+        <button id="close-modal" class="absolute -top-4 -right-4 flex items-center justify-center size-12 bg-teal-700 rounded-full hover:bg-red-700">
+            <span class="icon icon-rounded text-3xl">close</span>
+        </button>
+        <h3 class="text-3xl lg:text-4xl font-black text-center text-teal-200">About</h3>
+        <div class="flex flex-col gap-1">
+            <p>This site provides all songs that are listed on RobTop's <strong>Geometry Dash Music Library</strong>.</p>
+            <p>This site can be accessed without an Internet connection.</p>
+            <p>The song metadata displayed on this site is modified in some way. This includes:</p>
+            <ul class="list-disc">
+                <li>All UTM parameters in the song's URL has been ommited.</li>
+                <li>Song's duration and filesize has been formatted.</li>
+                <li>Song data for ID #10009950 is corrupted, so I have modified the data to fix this.</li>
+            </ul>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+            <p>Most of the assets belongs to <a href="https://robtopgames.com" target="_blank" class="text-teal-300 hover:text-teal-100 underline decoration-dashed hover:decoration-solid transition-colors">RobTop Games</a></p>
+            <p>Site logo generated using <a href="https://gdcolon.com/gdfont" target="_blank" class="text-teal-300 hover:text-teal-100 underline decoration-dashed hover:decoration-solid transition-colors">GD Font Generator</a> by <a href="https://twitter.com/TheRealGDColon" target="_blank" class="text-teal-300 hover:text-teal-100 underline decoration-dashed hover:decoration-solid transition-colors">Colon</a></p>
+            <p>Website by <a href="https://twitter.com/qctfw77" target="_blank" class="text-teal-300 hover:text-teal-100 underline decoration-dashed hover:decoration-solid transition-colors">QCTFW</a></p>
+        </div>
+    </div>
+</aside>
+
+<script>
+    function closeModal() {
+        document.querySelector('aside')?.classList.add('hidden')
+    }
+
+    document.getElementById('close-modal')?.addEventListener('click', closeModal)
+
+    document.addEventListener('keydown', (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+            closeModal()
+        }
+    })
+    
+</script>
