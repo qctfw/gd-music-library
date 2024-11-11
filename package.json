@@ -31,6 +31,8 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241022.0",
+    "@vite-pwa/astro": "^0.4.3",
+    "vite-plugin-pwa": "^0.20.5",
     "wrangler": "^3.84.1"
   }
 }
