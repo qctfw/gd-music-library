@@ -1,27 +1,26 @@
 ---
 import { Image } from "astro:assets"
 
-import { musicLibraryVersion } from "../stores/music-library"
+import { musicLibraryVersion } from "../../stores/music-library"
 
-import AboutModal from "../components/modals/AboutModal.astro"
-import Library from "../components/Library.vue"
-import SearchFilter from "../components/SearchFilter.vue"
+import AboutModal from "../../components/modals/AboutModal.astro"
+import Library from "../../components/Library.vue"
+import SearchFilter from "../../components/SearchFilter.vue"
 
-import Layout from "../layouts/Layout.astro"
+import Layout from "../../layouts/Layout.astro"
 
-import Logo from "../assets/images/logo.png"
+import Logo from "../../assets/images/logo.png"
 
 export function getStaticPaths() {
-	return [
-		{ params: { version: undefined } },
-		...Object.keys(musicLibraryVersion).map(v => ({ params: { version: v }}))
-	]
+	return Object.keys(musicLibraryVersion).map(v => ({ params: { version: v }}))
 }
+
+const { version } = Astro.params
 
 ---
 
-<Layout title="GD Music Library">
-	<main class="w-[100dvw] lg:h-[100dvh] flex flex-col justify-between items-center text-slate-200">
+<Layout title={`GD Music Library (Version ${version})`}>
+	<main class="w-[100dvw] min-h-[100dvh] flex flex-col justify-between items-center text-slate-200">
 		<section class="w-full flex flex-col items-center gap-4 py-2">
 			<h1 class="sr-only">Geometry Dash Music Library</h1>
 			<Image
@@ -32,7 +31,7 @@ export function getStaticPaths() {
 			<SearchFilter client:load class="px-2 w-full lg:w-1/2" />
 		</section>
 		<section class="w-full flex flex-row justify-center grow px-4 py-2">
-			<Library client:load />
+			<Library client:load version={parseInt(version)} />
 		</section>
 		<footer class="flex flex-row gap-2 py-2">
 			<p>This site is not affiliated with RobTop Games.</p>

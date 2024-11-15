@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { decompressSync } from 'fflate'
 import { filesize } from 'filesize'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useStore } from '@nanostores/vue'
 
-import { version, artists, songs, tags, processMusicLibraryData } from '../stores/music-library'
+import { version, artists, songs, tags, latestMusicLibraryVersion, processMusicLibraryData, getMusicLibraryData } from '../stores/music-library'
 import { query, artistIds, tagIds, musicPlatformId } from '../stores/filter'
 
 import SongDetailModal from './modals/SongDetailModal.vue'
 
 import NCSLogo from '../assets/images/ncs.png'
+
+const props = defineProps<{
+  version?: number
+}>()
 
 const $version = useStore(version)
 const $artists = useStore(artists)
@@ -59,7 +62,9 @@ watch([$query, $artistQuery, $tagQuery], () => {
 
 onMounted(() => {
     if ($songs.value.size <= 0) {
-        getMusicLibraryData()
+        const selectedVersion = props.version || latestMusicLibraryVersion
+
+        getMusicLibraryData(selectedVersion)
             .then(data => processMusicLibraryData(data))
             .catch(error => {
                 hasError.value = true
@@ -67,13 +72,6 @@ onMounted(() => {
             })
     }
 })
-
-async function getMusicLibraryData() {
-    const defaultVersion = 127
-    const rawData = await fetch('/api/music-library/' + defaultVersion).then(res => res.arrayBuffer())
-
-    return decompressSync(new Uint8Array(rawData))
-}
 
 const formatDuration = (duration: number) => {
     const minutes = Math.floor(duration / 60)

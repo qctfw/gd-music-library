@@ -1,9 +1,32 @@
+import { decompressSync } from 'fflate'
 import { atom } from 'nanostores'
 
 export const version = atom(0)
 export const artists = atom<Map<number, Artist>>(new Map())
 export const songs = atom<Map<number, Song>>(new Map())
 export const tags = atom<Map<number, Tag>>(new Map())
+
+export const musicLibraryVersion: { [key: number]: string } = {
+    127: '127-2d0f36af2ff8ed7b26ac99573f03e57ba3929c0c762ed6eff7cec10aafdd330d.txt',
+    129: '129-029fd0860dfec8fa536722b15650258794e747abf5baa7b2b010b7fbd2643261.txt',
+}
+
+export const latestMusicLibraryVersion = 129
+
+export const getMusicLibraryData = async (selectedVersion: number): Promise<Uint8Array> => {
+    const versionFile = musicLibraryVersion[selectedVersion]
+
+    return fetch('/datas/music-library/' + versionFile)
+        .then(res => res.text())
+        .then(res => {
+            const result = atob(res.replace(/-/g, '+').replace(/_/g, '/'))
+
+            const bytes = new Uint8Array(result.length).map((_, index) => result.charCodeAt(index))
+
+            return bytes
+        })
+        .then(res => decompressSync(res))
+}
 
 export const processMusicLibraryData = (rawData: Uint8Array) => {
     let currentPart = 0
@@ -17,7 +40,7 @@ export const processMusicLibraryData = (rawData: Uint8Array) => {
             currentString = ''
             continue
         }
-    
+
         const char = String.fromCharCode(charCode)
         currentString += char
     }

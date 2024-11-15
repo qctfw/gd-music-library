@@ -88,7 +88,7 @@ const keyDownEvents = (event: KeyboardEvent) => {
 
 <template>
     <aside class="fixed inset-0 flex items-center justify-center w-[100dvw] h-[100dvh] bg-slate-900 bg-opacity-35" role="dialog" aria-modal="true">
-        <div class="w-4/5 xl:w-1/2 relative flex flex-col gap-8 items-center p-8 bg-slate-900 rounded-lg">
+        <div class="w-4/5 xl:w-1/2 relative flex flex-col gap-8 items-center p-8 bg-slate-800 rounded-lg shadow-[0_10px_20px_5px_rgba(0,0,0,0.5)]">
             <button class="absolute -top-4 -right-4 flex items-center justify-center size-12 bg-teal-700 rounded-full hover:bg-red-700" @click="emit('close')">
                 <span class="icon icon-rounded text-3xl">close</span>
             </button>

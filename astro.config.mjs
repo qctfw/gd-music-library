@@ -25,14 +25,11 @@ export default defineConfig({
         ],
       },
     },
-    ssr: {
-      external: ['node:buffer'],
-    },
   },
   integrations: [
     AstroPWA({
       injectRegister: 'script-defer',
-      registerType: 'prompt',
+      registerType: 'autoUpdate',
       manifest: {
         name: 'Geometry Dash Music Library',
         short_name: 'GD Music Library',

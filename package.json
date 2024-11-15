@@ -20,19 +20,19 @@
     "@nanostores/vue": "^0.10.0",
     "@savaryna/tailwindcss-material-symbols": "^1.0.3",
     "@tailwindcss/forms": "^0.5.9",
-    "astro": "^4.16.8",
+    "astro": "^4.16.12",
     "fflate": "^0.8.2",
     "filesize": "^10.1.6",
     "nanostores": "^0.11.3",
     "sharp": "^0.33.5",
-    "tailwindcss": "^3.4.14",
+    "tailwindcss": "^3.4.15",
     "typescript": "^5.6.3",
     "vue": "^3.5.12"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241022.0",
+    "@cloudflare/workers-types": "^4.20241112.0",
     "@vite-pwa/astro": "^0.4.3",
     "vite-plugin-pwa": "^0.20.5",
-    "wrangler": "^3.84.1"
+    "wrangler": "^3.87.0"
   }
 }
