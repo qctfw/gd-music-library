@@ -13,7 +13,7 @@ export const musicLibraryVersion: { [key: number]: string } = {
     132: '132-7079fe1c7fbdc7c033881ec50e4371f2c5fb0ecf7108118b512cb7cfc20ac940.txt',
 }
 
-export const latestMusicLibraryVersion = 130
+export const latestMusicLibraryVersion = 132
 
 export const getMusicLibraryData = async (selectedVersion: number): Promise<Uint8Array> => {
     const versionFile = musicLibraryVersion[selectedVersion]
