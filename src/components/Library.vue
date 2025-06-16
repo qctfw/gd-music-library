@@ -62,16 +62,22 @@ watch([$query, $artistQuery, $tagQuery], () => {
 
 onMounted(() => {
     if ($songs.value.size <= 0) {
-        const selectedVersion = props.version || latestMusicLibraryVersion
-
-        getMusicLibraryData(selectedVersion)
-            .then(data => processMusicLibraryData(data))
-            .catch(error => {
-                hasError.value = true
-                console.error(error)
-            })
+        loadSongs()
     }
 })
+
+const loadSongs = () => {
+    const selectedVersion = props.version || latestMusicLibraryVersion
+
+    hasError.value = false
+
+    getMusicLibraryData(selectedVersion)
+        .then(data => processMusicLibraryData(data))
+        .catch(error => {
+            hasError.value = true
+            console.error(error)
+        })
+}
 
 const formatDuration = (duration: number) => {
     const minutes = Math.floor(duration / 60)
@@ -167,7 +173,10 @@ const onSubmitPageInput = (event: Event) => {
                 </div>
             </div>
         </div>
-        <div v-else-if="hasError" class="font-semibold">There is an error when fetching the music library data.</div>
+        <div v-else-if="hasError" class="flex flex-row flex-wrap font-semibold gap-2">
+            <p>There is an error when fetching the music library data.</p>
+            <button class="border-2 border-teal-700 hover:bg-teal-700 text-teal-100 p-2 rounded" @click="loadSongs">Retry</button>
+        </div>
         <div v-else class="font-semibold">Loading...</div>
     </div>
     <SongDetailModal v-if="selectedSongId > 0" :id="selectedSongId" @close="selectedSongId = 0" />
