@@ -3,7 +3,7 @@ import { filesize } from 'filesize'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useStore } from '@nanostores/vue'
 
-import { version, artists, songs, tags, latestMusicLibraryVersion, processMusicLibraryData, getMusicLibraryData } from '../stores/music-library'
+import { version, artists, songs, tags, processMusicLibraryData, getMusicLibraryData } from '../stores/music-library'
 import { query, artistIds, tagIds, musicPlatformId } from '../stores/filter'
 
 import SongDetailModal from './modals/SongDetailModal.vue'
@@ -67,11 +67,9 @@ onMounted(() => {
 })
 
 const loadSongs = () => {
-    const selectedVersion = props.version || latestMusicLibraryVersion
-
     hasError.value = false
 
-    getMusicLibraryData(selectedVersion)
+    getMusicLibraryData()
         .then(data => processMusicLibraryData(data))
         .catch(error => {
             hasError.value = true

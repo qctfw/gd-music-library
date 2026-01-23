@@ -6,18 +6,12 @@ export const artists = atom<Map<number, Artist>>(new Map())
 export const songs = atom<Map<number, Song>>(new Map())
 export const tags = atom<Map<number, Tag>>(new Map())
 
-export const musicLibraryVersion: { [key: number]: string } = {
-    127: '127-2d0f36af2ff8ed7b26ac99573f03e57ba3929c0c762ed6eff7cec10aafdd330d.txt',
-    129: '129-029fd0860dfec8fa536722b15650258794e747abf5baa7b2b010b7fbd2643261.txt',
-    130: '130-a1679b35ed19fc8a9e62ee2488a0378ec0522374b39db757a27a7644da90592b.txt',
-    132: '132-7079fe1c7fbdc7c033881ec50e4371f2c5fb0ecf7108118b512cb7cfc20ac940.txt',
-    134: '134-485b29688e97eb393e48b43cd7413508048216dac7f5f803a42933fb540245a0.txt',
-}
+export const libraryFile = '141-ZYpX4Bp1DDe63ox3y6K90bmmO7Vnk0RQVLNUonpr6OzjI52zN1o1W13nKS8IXLwT.txt'
 
-export const latestMusicLibraryVersion = 134
+export const latestMusicLibraryVersion = 141
 
-export const getMusicLibraryData = async (selectedVersion: number): Promise<Uint8Array> => {
-    const versionFile = musicLibraryVersion[selectedVersion]
+export const getMusicLibraryData = async (): Promise<Uint8Array> => {
+    const versionFile = libraryFile
 
     return fetch('/datas/music-library/' + versionFile)
         .then(res => res.text())

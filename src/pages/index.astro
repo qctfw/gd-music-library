@@ -1,8 +1,6 @@
 ---
 import { Image } from "astro:assets"
 
-import { musicLibraryVersion } from "../stores/music-library"
-
 import AboutModal from "../components/modals/AboutModal.astro"
 import Library from "../components/Library.vue"
 import SearchFilter from "../components/SearchFilter.vue"
@@ -10,13 +8,6 @@ import SearchFilter from "../components/SearchFilter.vue"
 import Layout from "../layouts/Layout.astro"
 
 import Logo from "../assets/images/logo.png"
-
-export function getStaticPaths() {
-	return [
-		{ params: { version: undefined } },
-		...Object.keys(musicLibraryVersion).map(v => ({ params: { version: v }}))
-	]
-}
 
 ---
 
