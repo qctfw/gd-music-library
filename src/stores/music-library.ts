@@ -102,11 +102,6 @@ function processSongPart(data: String): Map<number, Song> {
             return
         }
 
-        // Workaround temp fix for malformed data
-        if (value.startsWith('10009950')) {
-            value = value.replace('(ft. Malou,', '(ft. Malou﹐')
-        }
-
         const arrayData = value.replace(/(\r\n|\n|\r)/gm, '').split(',')
         const songId = Number(arrayData[0])
         const songName = arrayData[1].trim()
