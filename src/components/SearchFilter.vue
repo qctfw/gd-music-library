@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { useStore } from '@nanostores/vue';
 import { artists, tags } from '../stores/music-library';
 import { query, artistIds, tagIds, musicPlatformId } from '../stores/filter'
+import { MusicPlatformMeta } from '../types/music-platform';
 
 const $artists = useStore(artists)
 const $tags = useStore(tags)
@@ -83,9 +84,7 @@ function resetSearch() {
             </select>
             <select v-model="selectMusicPlatform" class="form-select bg-transparent border-2 border-teal-600 text-teal-200 rounded">
                 <option value="" class="bg-teal-900">(All Music Platforms)</option>
-                <option value="0" class="bg-teal-900">(No Music Platforms)</option>
-                <option value="1" class="bg-teal-900">NCS</option>
-                <option value="2" class="bg-teal-900">CHOMPO</option>
+                <option v-for="[id, mp] in Object.entries(MusicPlatformMeta)" :value="id" class="bg-teal-900" v-text="mp.name"></option>
             </select>
         </div>
     </div>

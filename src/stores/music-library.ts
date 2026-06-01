@@ -1,5 +1,7 @@
 import { decompressSync } from 'fflate'
 import { atom } from 'nanostores'
+import { isMusicPlatform, MusicPlatform } from '../types/music-platform'
+import type { Artist, Song, Tag } from '../types/song'
 
 export const version = atom(0)
 export const artists = atom<Map<number, Artist>>(new Map())
@@ -109,7 +111,10 @@ function processSongPart(data: String): Map<number, Song> {
         const songFilesize = Number(arrayData[3])
         const songDuration = Number(arrayData[4])
         const songTags = arrayData[5] && arrayData[5] !== '.' ? arrayData[5].replace(/^\.|\.$/g, '').split('.').map(v => Number(v)) : []
-        const songPlatform = arrayData[6] ? Number(arrayData[6]) : MusicPlatform.None
+
+        const musicPlatformValue = Number(arrayData[6])
+        const musicPlatform = isMusicPlatform(musicPlatformValue) ? musicPlatformValue : MusicPlatform.None
+
         const extraArtistIds = arrayData[7] ? arrayData[7].split('.').map(v => Number(v)) : []
         const songUrl = decodeURIComponent(arrayData[8]).replace(/\?.+/g, '')
         const isNewSong = Boolean(arrayData[9])
@@ -123,7 +128,7 @@ function processSongPart(data: String): Map<number, Song> {
             filesize: songFilesize,
             duration: songDuration,
             tagIds: songTags,
-            musicPlatform: songPlatform,
+            musicPlatform: musicPlatform,
             extraArtistIds: extraArtistIds,
             url: songUrl && songUrl !== '://' ? songUrl : null,
             isNew: isNewSong,

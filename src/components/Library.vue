@@ -8,8 +8,7 @@ import { query, artistIds, tagIds, musicPlatformId } from '../stores/filter'
 
 import SongDetailModal from './modals/SongDetailModal.vue'
 
-import NCSLogo from '../assets/images/ncs.png'
-import ChompoLogo from '../assets/images/chompo.png'
+import { MusicPlatform, MusicPlatformMeta } from '../types/music-platform.ts'
 
 const props = defineProps<{
   version?: number
@@ -30,7 +29,7 @@ const songArray = computed(() => Array.from($songs.value.entries()).filter((valu
         return false
     }
 
-    if ($musicPlatformQuery.value.length > 0 && value[1].musicPlatform !== +$musicPlatformQuery.value) {
+    if ($musicPlatformQuery.value.length > 0 && value[1].musicPlatform != +$musicPlatformQuery.value) {
         return false
     }
 
@@ -57,7 +56,7 @@ const paginatedSongData = computed(() => {
     return songArray.value.slice(start, start + itemsPerPage)
 })
 
-watch([$query, $artistQuery, $tagQuery], () => {
+watch([$query, $artistQuery, $tagQuery, $musicPlatformQuery], () => {
     currentPage.value = 1
 })
 
@@ -144,9 +143,11 @@ const onSubmitPageInput = (event: Event) => {
                 </div>
                 <div class="flex flex-col justify-between text-end">
                     <div class="flex flex-col items-end w-full gap-1 text-xs">
-                        <span>#{{ songId }}</span>
-                        <img v-if="song.musicPlatform === 1" :src="NCSLogo.src" alt="NoCopyrightSounds Logo" class="w-8" />
-                        <img v-if="song.musicPlatform === 2" :src="ChompoLogo.src" alt="NoCopyrightSounds Logo" class="w-12" />
+                        <span class="font-mono"><span class="select-none">#</span><span class="select-all">{{ songId }}</span></span>
+                        <img v-if="song.musicPlatform != MusicPlatform.None"
+                            :src="MusicPlatformMeta[song.musicPlatform].image.src"
+                            :alt="MusicPlatformMeta[song.musicPlatform].name + 'Logo'"
+                            :class="MusicPlatformMeta[song.musicPlatform].imageSize" />
                     </div>
                     <div class="">
                         <button class="icon icon-outlined hover:icon-filled" @click="selectedSongId = song.id">info</button>
