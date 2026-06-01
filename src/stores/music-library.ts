@@ -6,9 +6,9 @@ export const artists = atom<Map<number, Artist>>(new Map())
 export const songs = atom<Map<number, Song>>(new Map())
 export const tags = atom<Map<number, Tag>>(new Map())
 
-export const libraryFile = '145-74a5cd9343af4246fc6b5f5f095efe01cf73f6254bab7f89356fdb15495f5100.txt'
+export const libraryFile = '146-b9d4c937a16217654d1ee9dddf0e9e6dcf94610c8f9635f88307c5b45f1b5749.txt'
 
-export const latestMusicLibraryVersion = 145
+export const latestMusicLibraryVersion = 146
 
 export const getMusicLibraryData = async (): Promise<Uint8Array> => {
     const versionFile = libraryFile
