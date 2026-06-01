@@ -9,6 +9,7 @@ import { query, artistIds, tagIds, musicPlatformId } from '../stores/filter'
 import SongDetailModal from './modals/SongDetailModal.vue'
 
 import NCSLogo from '../assets/images/ncs.png'
+import ChompoLogo from '../assets/images/chompo.png'
 
 const props = defineProps<{
   version?: number
@@ -145,6 +146,7 @@ const onSubmitPageInput = (event: Event) => {
                     <div class="flex flex-col items-end w-full gap-1 text-xs">
                         <span>#{{ songId }}</span>
                         <img v-if="song.musicPlatform === 1" :src="NCSLogo.src" alt="NoCopyrightSounds Logo" class="w-8" />
+                        <img v-if="song.musicPlatform === 2" :src="ChompoLogo.src" alt="NoCopyrightSounds Logo" class="w-12" />
                     </div>
                     <div class="">
                         <button class="icon icon-outlined hover:icon-filled" @click="selectedSongId = song.id">info</button>

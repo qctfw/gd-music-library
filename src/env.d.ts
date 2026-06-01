@@ -35,4 +35,5 @@ interface Tag {
 enum MusicPlatform {
 	None = 0,
 	NCS = 1,
+	CHOMPO = 2,
 }

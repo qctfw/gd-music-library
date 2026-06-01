@@ -7,6 +7,7 @@ import { songs, artists, tags } from '../../stores/music-library'
 
 import YouTubeLogo from '../../assets/images/youtube.webp'
 import NCSLogo from '../../assets/images/ncs.png'
+import ChompoLogo from '../../assets/images/chompo.png'
 
 const props = defineProps<{
     id: number,
@@ -105,6 +106,10 @@ const keyDownEvents = (event: KeyboardEvent) => {
             <div v-if="song?.musicPlatform === 1" class="flex flex-col items-center gap-1">
                 <a href="https://ncs.io" target="_blank" rel="nofollow noreferrer"><img :src="NCSLogo.src" class="w-16 lg:w-20" alt="NoCopyrightSounds Logo" /></a>
                 <span class="text-sm md:text-base">This music is provided by <a href="https://ncs.io" target="_blank" rel="nofollow noreferrer" class="text-teal-300 hover:text-teal-100 underline decoration-dashed hover:decoration-solid transition-colors">NoCopyrightSounds <span class="icon icon-rounded text-sm">open_in_new</span></a></span>
+            </div>
+            <div v-else-if="song?.musicPlatform === 2" class="flex flex-col items-center gap-1">
+                <a href="https://www.chompochompo.com" target="_blank" rel="nofollow noreferrer"><img :src="ChompoLogo.src" class="w-16 lg:w-20" alt="CHOMPO Logo" /></a>
+                <span class="text-sm md:text-base">This music is provided by <a href="https://www.chompochompo.com" target="_blank" rel="nofollow noreferrer" class="text-teal-300 hover:text-teal-100 underline decoration-dashed hover:decoration-solid transition-colors">CHOMPO <span class="icon icon-rounded text-sm">open_in_new</span></a></span>
             </div>
             <p class="lg:text-lg text-center" v-text="song?.tags.map(tag => tag?.name).join(', ')"></p>
             <a v-if="song?.url" :href="song.url" rel="noopener noreferrer" target="_blank" class="border-2 border-teal-700 hover:bg-teal-700 text-teal-100 px-5 py-2 rounded">Download Soundtrack <span class="icon icon-rounded text-base">open_in_new</span></a>

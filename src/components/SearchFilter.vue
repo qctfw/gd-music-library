@@ -85,6 +85,7 @@ function resetSearch() {
                 <option value="" class="bg-teal-900">(All Music Platforms)</option>
                 <option value="0" class="bg-teal-900">(No Music Platforms)</option>
                 <option value="1" class="bg-teal-900">NCS</option>
+                <option value="2" class="bg-teal-900">CHOMPO</option>
             </select>
         </div>
     </div>
