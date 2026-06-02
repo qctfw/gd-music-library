@@ -31,8 +31,13 @@ const tagOptions = computed(() => Array.from($tags.value.entries()).sort((a, b) 
     return 0
 }))
 
+let queryDebounce: ReturnType<typeof setTimeout> | undefined
+
 watch(searchQuery, (value) => {
-    query.set(value.trim().toLocaleLowerCase())
+    clearTimeout(queryDebounce)
+    queryDebounce = setTimeout(() => {
+        query.set(value.trim().toLocaleLowerCase())
+    }, 200)
 })
 
 watch(selectArtist, (value) => {

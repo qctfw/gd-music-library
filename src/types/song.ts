@@ -10,6 +10,7 @@ export type Artist = {
 export type Song = {
 	id: number;
 	name: string;
+	searchName: string;
 	artistId: number;
 	filesize: number;
 	duration: number;

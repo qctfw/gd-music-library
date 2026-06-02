@@ -28,25 +28,9 @@ export const getMusicLibraryData = async (): Promise<Uint8Array> => {
 }
 
 export const processMusicLibraryData = (rawData: Uint8Array) => {
-    let currentPart = 0
-    let currentString = ''
-    
-    for (const charCode of rawData) {
-        if (charCode == 124) {
-            processPart(currentString, currentPart)
-    
-            currentPart++
-            currentString = ''
-            continue
-        }
+    const text = new TextDecoder().decode(rawData)
 
-        const char = String.fromCharCode(charCode)
-        currentString += char
-    }
-    
-    if (currentString) {
-        processPart(currentString, currentPart)
-    }
+    text.split('|').forEach((part, index) => processPart(part, index))
 }
 
 function processPart(data: String, partIndex: number) {
@@ -124,6 +108,7 @@ function processSongPart(data: String): Map<number, Song> {
         result.set(songId, {
             id: songId,
             name: songName,
+            searchName: songName.toLocaleLowerCase(),
             artistId: artistId,
             filesize: songFilesize,
             duration: songDuration,
