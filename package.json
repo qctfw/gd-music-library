@@ -12,27 +12,29 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
+    "@astrojs/check": "^0.9.10",
     "@astrojs/cloudflare": "^11.2.0",
-    "@astrojs/tailwind": "^5.1.2",
-    "@astrojs/vue": "^4.5.2",
+    "@astrojs/tailwind": "^5.1.5",
+    "@astrojs/vue": "^4.5.3",
     "@astrolib/seo": "1.0.0-beta.8",
     "@nanostores/vue": "^0.10.0",
-    "@savaryna/tailwindcss-material-symbols": "^1.0.3",
-    "@tailwindcss/forms": "^0.5.9",
-    "astro": "^4.16.12",
-    "fflate": "^0.8.2",
+    "@savaryna/tailwindcss-material-symbols": "^1.3.1",
+    "@tailwindcss/forms": "^0.5.11",
+    "astro": "^4.16.19",
+    "fflate": "^0.8.3",
     "filesize": "^10.1.6",
-    "nanostores": "^0.11.3",
+    "nanostores": "^0.11.4",
     "sharp": "^0.33.5",
-    "tailwindcss": "^3.4.15",
-    "typescript": "^5.6.3",
-    "vue": "^3.5.12"
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3",
+    "vue": "^3.5.41"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241112.0",
-    "@vite-pwa/astro": "^0.4.3",
-    "vite-plugin-pwa": "^0.20.5",
-    "wrangler": "^3.87.0"
+    "@cloudflare/workers-types": "^4.20260702.1",
+    "@vite-pwa/astro": "^1.2.0",
+    "vite-plugin-pwa": "^1.3.0",
+    "workbox-build": "7.4.1",
+    "workbox-window": "7.4.1",
+    "wrangler": "^3.114.17"
   }
 }
