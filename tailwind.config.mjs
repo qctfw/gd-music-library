@@ -12,6 +12,7 @@ export default {
 	},
 	plugins: [
 		require('@savaryna/tailwindcss-material-symbols'),
-		require('@tailwindcss/forms'),
+    require('@tailwindcss/forms'),
+		require('tailwind-scrollbar'),
 	],
 }

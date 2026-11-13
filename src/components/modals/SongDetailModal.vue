@@ -92,17 +92,13 @@ const keyDownEvents = (event: KeyboardEvent) => {
                 <div v-for="artist of song?.artists" class="flex flex-col items-center gap-1">
                     <p class="text-lg md:text-xl 2xl:text-2xl font-semibold">{{ artist?.name }}</p>
                     <div v-if="(artist?.links?.length ?? 0) > 0" class="flex flex-row flex-wrap items-center justify-center gap-x-2 gap-y-1">
-                        <a v-for="linkData in artist?.links" :href="linkData.url.href" :title="linkData.title" rel="noopener noreferrer" target="_blank" class="flex flex-row gap-x-2 items-center border-2 border-teal-700 hover:bg-teal-700 text-teal-100 px-3 py-1.5 rounded">
+                        <a v-for="linkData in artist?.links" :href="linkData.url.href" :title="artist?.name + '\'s ' + linkData.title" rel="noopener noreferrer" target="_blank" class="flex flex-row gap-x-2 items-center border-2 border-teal-700 hover:bg-teal-700 text-teal-100 px-3 py-1.5 rounded">
                             <span v-if="linkData.typeId === ExternalLinkType.Website" class="icon icon-filled">globe</span>
                             <img v-else :src="ExternalLinkTypeMeta[linkData.typeId].logoUrl?.src" class="h-6" :alt="linkData.title + ' Icon'" />
                             <span v-text="linkData.title"></span>
                         </a>
                     </div>
                 </div>
-            </div>
-            <div v-if="(song?.musicPlatform ?? MusicPlatform.None) !== MusicPlatform.None" class="flex flex-col items-center gap-1">
-                <a :href="MusicPlatformMeta[song?.musicPlatform ?? MusicPlatform.None].site.href" target="_blank" rel="nofollow noreferrer"><img :src="MusicPlatformMeta[song?.musicPlatform ?? MusicPlatform.None].image.src" class="w-16 lg:w-20" :alt="MusicPlatformMeta[song?.musicPlatform ?? MusicPlatform.None].name + 'Logo'" /></a>
-                <span class="text-sm md:text-base text-center">This music is provided by <a :href="MusicPlatformMeta[song?.musicPlatform ?? MusicPlatform.None].site.href" target="_blank" rel="nofollow noreferrer" class="text-teal-300 hover:text-teal-100 underline underline-offset-4 decoration-dashed hover:decoration-solid transition-colors">{{ MusicPlatformMeta[song?.musicPlatform ?? MusicPlatform.None].name }} <span class="icon icon-rounded text-sm" style="--ms-optical-size:16;">open_in_new</span></a></span>
             </div>
             <div v-if="(song?.links?.length ?? 0) > 0" class="flex flex-col gap-1">
                 <h4 class="text-lg md:text-xl xl:text-2xl font-semibold text-center text-teal-200">Listen / Download</h4>
@@ -114,11 +110,14 @@ const keyDownEvents = (event: KeyboardEvent) => {
                     </a>
                 </div>
             </div>
-            <div v-if="(song?.tags?.length ?? 0) > 0" class="flex flex-col gap-1">
-                <h4 class="text-lg md:text-xl xl:text-2xl font-semibold text-center text-teal-200" v-text="(song?.tags?.length ?? 0) > 1 ? 'Tags' : 'Tag'"></h4>
-                <p class="lg:text-lg text-center" v-text="song?.tags.map(tag => tag?.name).join(', ')"></p>
+            <div v-if="(song?.musicPlatform ?? MusicPlatform.None) !== MusicPlatform.None" class="flex flex-col items-center gap-1">
+                <a :href="MusicPlatformMeta[song?.musicPlatform ?? MusicPlatform.None].site.href" target="_blank" rel="nofollow noreferrer"><img :src="MusicPlatformMeta[song?.musicPlatform ?? MusicPlatform.None].image.src" class="w-16 lg:w-20" :alt="MusicPlatformMeta[song?.musicPlatform ?? MusicPlatform.None].name + 'Logo'" /></a>
+                <span class="text-sm md:text-base text-center">This music is provided by <a :href="MusicPlatformMeta[song?.musicPlatform ?? MusicPlatform.None].site.href" target="_blank" rel="nofollow noreferrer" class="text-teal-300 hover:text-teal-100 underline underline-offset-4 decoration-dashed hover:decoration-solid transition-colors">{{ MusicPlatformMeta[song?.musicPlatform ?? MusicPlatform.None].name }} <span class="icon icon-rounded text-sm" style="--ms-optical-size:16;">open_in_new</span></a></span>
             </div>
-            <p>{{ song?.duration }} &bull; {{ song?.filesize }} &bull; <button class="text-teal-300 hover:text-teal-100 underline underline-offset-4 decoration-dashed hover:decoration-solid transition-colors" v-text="'#' + id" @click="onClickSongId"></button></p>
+            <div class="flex flex-col items-center gap-y-1">
+                <p v-if="(song?.tags?.length ?? 0) > 0" class="text-sm lg:text-sm text-center" v-text="song?.tags.map(tag => tag?.name).join(', ')"></p>
+                <p>{{ song?.duration }} &bull; {{ song?.filesize }} &bull; <button class="text-teal-300 hover:text-teal-100 underline underline-offset-4 decoration-dashed hover:decoration-solid transition-colors" v-text="'#' + id" @click="onClickSongId"></button></p>
+            </div>
             <div v-if="idCopied" class="absolute bg-teal-500 text-teal-950 font-semibold px-4 py-2 rounded" style="top:102%;">Song ID has been copied to clipboard</div>
         </div>
     </aside>

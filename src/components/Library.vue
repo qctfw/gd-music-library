@@ -4,7 +4,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useStore } from '@nanostores/vue'
 
 import { version, artists, songs, tags, processMusicLibraryData, getMusicLibraryData } from '../stores/music-library'
-import { query, artistIds, tagIds, musicPlatformId } from '../stores/filter'
+import { query, artistIds, tagIds, musicPlatformId, onlyNewSongs } from '../stores/filter'
 
 import SongDetailModal from './modals/SongDetailModal.vue'
 
@@ -23,9 +23,14 @@ const $query = useStore(query)
 const $artistQuery = useStore(artistIds)
 const $tagQuery = useStore(tagIds)
 const $musicPlatformQuery = useStore(musicPlatformId)
+const $onlyNewSongsQuery = useStore(onlyNewSongs)
 
 const songArray = computed(() => Array.from($songs.value.entries()).filter((value) => {
     if ($query.value.length > 0 && ! value[1].searchName.includes($query.value) && value[1].id.toString() != $query.value) {
+        return false
+    }
+
+    if ($onlyNewSongsQuery.value && !value[1].isNew) {
         return false
     }
 
@@ -44,7 +49,7 @@ const songArray = computed(() => Array.from($songs.value.entries()).filter((valu
     return true
 }).reverse())
 
-const itemsPerPage = 14
+const itemsPerPage = 16
 const currentPage = ref(1)
 const pageInput = ref('')
 const totalPages = computed(() => Math.ceil(songArray.value.length / itemsPerPage))
