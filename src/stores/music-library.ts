@@ -105,7 +105,7 @@ function processSongPart(data: String) {
 
     const extraArtistIds = arrayData[7] ? arrayData[7].split('.').map(v => Number(v)) : []
     const songUrl = decodeURIComponent(arrayData[8]).replace(/\?.+/g, '')
-    const isNewSong = Boolean(arrayData[9])
+    const isNewSong = arrayData[9] == '1'
     const songPriorityOrder = Number(arrayData[10])
     const songnumber = Number(arrayData[11])
 

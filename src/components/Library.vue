@@ -42,7 +42,7 @@ const songArray = computed(() => Array.from($songs.value.entries()).filter((valu
     }
 
     return true
-}))
+}).reverse())
 
 const itemsPerPage = 14
 const currentPage = ref(1)
@@ -143,7 +143,10 @@ const onSubmitPageInput = (event: Event) => {
                 </div>
                 <div class="flex flex-col justify-between text-end">
                     <div class="flex flex-col items-end w-full gap-1 text-xs">
-                        <span class="font-mono"><span class="select-none">#</span><span class="select-all">{{ songId }}</span></span>
+                        <div class="flex flex-row-reverse items-center gap-x-2">
+                            <span class="font-mono"><span class="select-none">#</span><span class="select-all">{{ songId }}</span></span>
+                            <span v-if="song.isNew" class="bg-amber-200 text-teal-900 font-semibold px-1 rounded text-xs lg:text-sm">New!</span>
+                        </div>
                         <img v-if="song.musicPlatform != MusicPlatform.None"
                             :src="MusicPlatformMeta[song.musicPlatform].image.src"
                             :alt="MusicPlatformMeta[song.musicPlatform].name + 'Logo'"
