@@ -1,10 +1,12 @@
+import type { ExternalLinkType } from "./external-link";
 import type { MusicPlatform } from "./music-platform";
 
 export type Artist = {
 	id: number;
 	name: string;
-	website: URL|null;
-	youtubeUrl: URL|null;
+	website: URL | null;
+  youtubeUrl: URL | null;
+  links: ExternalLink[];
 }
 
 export type Song = {
@@ -20,10 +22,17 @@ export type Song = {
 	url: string|null;
 	isNew: boolean;
 	priorityOrder: number;
-	songNumber: number;
+  songNumber: number;
+	links: ExternalLink[],
 }
 
 export type Tag = {
 	id: number;
 	name: string;
+}
+
+export type ExternalLink = {
+  title: string;
+  typeId: ExternalLinkType;
+  url: URL;
 }

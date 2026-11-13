@@ -11,11 +11,6 @@ const { class: className, ...rest } = Astro.props
         <div class="flex flex-col gap-1">
             <p>This site provides all songs that are listed on RobTop's <strong>Geometry Dash Music Library</strong>.</p>
             <p>This site can be accessed without an Internet connection.</p>
-            <p>The song metadata displayed on this site is modified in some way. This includes:</p>
-            <ul class="list-disc">
-                <li>All UTM parameters in the song's URL has been ommited.</li>
-                <li>Song's duration and filesize has been formatted.</li>
-            </ul>
         </div>
         <div class="flex flex-col items-center gap-1">
             <p>Most of the assets belongs to <a href="https://robtopgames.com" target="_blank" class="text-teal-300 hover:text-teal-100 underline decoration-dashed hover:decoration-solid transition-colors">RobTop Games</a></p>
@@ -37,5 +32,5 @@ const { class: className, ...rest } = Astro.props
             closeModal()
         }
     })
-    
+
 </script>
