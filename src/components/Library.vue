@@ -25,7 +25,7 @@ const $tagQuery = useStore(tagIds)
 const $musicPlatformQuery = useStore(musicPlatformId)
 
 const songArray = computed(() => Array.from($songs.value.entries()).filter((value) => {
-    if ($query.value.length > 0 && ! value[1].searchName.includes($query.value)) {
+    if ($query.value.length > 0 && ! value[1].searchName.includes($query.value) && value[1].id.toString() != $query.value) {
         return false
     }
 
@@ -40,7 +40,7 @@ const songArray = computed(() => Array.from($songs.value.entries()).filter((valu
     if ($tagQuery.value.length > 0 && $tagQuery.value.filter(v => value[1].tagIds.includes(v)).length <= 0) {
         return false
     }
-    
+
     return true
 }))
 

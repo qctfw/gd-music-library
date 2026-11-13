@@ -1,4 +1,5 @@
 import { decompressSync } from 'fflate'
+import { Base64 } from 'js-base64'
 import { atom } from 'nanostores'
 import { isMusicPlatform, MusicPlatform } from '../types/music-platform'
 import type { Artist, ExternalLink, Song, Tag } from '../types/song'
@@ -11,20 +12,12 @@ export const tags = atom<Map<number, Tag>>(new Map())
 
 export const libraryFile = '149-3bdcfa6f196c94fb7d60bea8197978466bb437bae6958af4c674686d4b6a2926.txt'
 
-export const latestMusicLibraryVersion = 149
-
 export const getMusicLibraryData = async (): Promise<Uint8Array> => {
   const versionFile = libraryFile
 
   return fetch('/datas/music-library/' + versionFile)
     .then(res => res.text())
-    .then(res => {
-      const result = atob(res.replace(/-/g, '+').replace(/_/g, '/'))
-
-      const bytes = new Uint8Array(result.length).map((_, index) => result.charCodeAt(index))
-
-      return bytes
-    })
+    .then(res => Base64.toUint8Array(res))
     .then(res => decompressSync(res))
 }
 
@@ -49,14 +42,12 @@ function processPart(data: String, partIndex: number) {
       processTagPart(data)
       break
     case 4:
-      // TODO: Changelog
+      processChangelogPart(data)
       break
     case 5:
-      // Song Links
       processSongLinkPart(data)
       break
     case 6:
-      // Artist Links
       processArtistLinkPart(data)
       break
     default:
@@ -159,6 +150,10 @@ function processTagPart(data: String) {
   })
 
   tags.set(result)
+}
+
+function processChangelogPart(data: String) {
+  // TODO: Changelog
 }
 
 function processSongLinkPart(data: String) {
