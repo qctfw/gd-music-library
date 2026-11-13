@@ -23,6 +23,6 @@ Geometry Dash Music Library on the browser!
 
 ## Credits
 
-- Thanks to [GDDocs](https://wyliemaster.github.io/gddocs) for documenting the data decryption.
+- Thanks to [GD Docs](https://boomlings.dev/) for documenting the data decryption.
 - Thanks to [Colon](https://github.com/GDColon) for the [Geometry Dash Font Generator](https://gdcolon.com/gdfont).
 - Thanks to [RobTop Games](https://robtopgames.com) for creating the amazing game.
