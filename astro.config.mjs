@@ -1,9 +1,8 @@
 import { defineConfig } from 'astro/config';
 
-import cloudflare from '@astrojs/cloudflare';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import vue from '@astrojs/vue';
-import AstroPWA from '@vite-pwa/astro';
+import { AstroPWAIntegration } from '@vite-pwa/astro';
 
 
 // https://astro.build/config
@@ -11,23 +10,9 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
-  output: 'hybrid',
-  adapter: cloudflare({
-    platformProxy: {
-      enabled: true
-    }
-  }),
-  vite: {
-    build: {
-      rollupOptions: {
-        external: [
-          'workbox-window'
-        ],
-      },
-    },
-  },
   integrations: [
-    AstroPWA({
+    vue(),
+    AstroPWAIntegration({
       injectRegister: 'script-defer',
       registerType: 'autoUpdate',
       manifest: {
@@ -44,8 +29,9 @@ export default defineConfig({
           }
         ]
       },
-      workbox: {
+      generateSW: {
         globPatterns: ['**/*.{html,js,json,css,png,webp,jpg,ico,woff2,ttf}'],
+        globIgnores: ['android-chrome-192x192.png'],
         runtimeCaching: [
           {
             urlPattern: ({sameOrigin}) => sameOrigin,
@@ -59,7 +45,8 @@ export default defineConfig({
         ],
       }
     }),
-    vue(),
-    tailwind(),
   ],
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });

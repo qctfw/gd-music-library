@@ -100,7 +100,7 @@ function handleDialogKeydown(event: KeyboardEvent) {
 </script>
 
 <template>
-    <aside ref="dialog" class="fixed inset-0 flex items-center justify-center w-[100dvw] h-[100dvh] bg-slate-900 bg-opacity-35" role="dialog" aria-modal="true" aria-labelledby="filter-modal-title" tabindex="-1" @keydown="handleDialogKeydown">
+    <aside ref="dialog" class="fixed inset-0 flex items-center justify-center w-dvw h-dvh bg-slate-900/35" role="dialog" aria-modal="true" aria-labelledby="filter-modal-title" tabindex="-1" @keydown="handleDialogKeydown">
         <div class="w-4/5 xl:w-1/2 relative flex flex-col gap-8 items-center p-8 bg-slate-800 rounded-lg shadow-[0_10px_20px_5px_rgba(0,0,0,0.5)]">
             <button type="button" class="absolute -top-4 -right-4 flex items-center justify-center size-12 bg-teal-700 rounded-full hover:bg-red-700" aria-label="Close filters" @click="emit('close')">
                 <span class="icon icon-rounded text-3xl" aria-hidden="true">close</span>

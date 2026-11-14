@@ -5,9 +5,8 @@
   ],
   "compilerOptions": {
     "types": [
-      "@cloudflare/workers-types/2023-07-01",
-      "vite-plugin-pwa/info.d.ts",
-      "vite-plugin-pwa/client.d.ts"
+      "@unplugin-pwa/core/info",
+      "@unplugin-pwa/core/vanillajs"
     ],
     "jsx": "preserve"
   }

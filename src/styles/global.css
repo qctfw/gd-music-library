@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@import "@savaryna/tailwindcss-material-symbols";
+
+@plugin "@tailwindcss/forms";
+@plugin "tailwind-scrollbar";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}

@@ -183,7 +183,7 @@ onBeforeUnmount(() => document.removeEventListener('pointerdown', onDocumentPoin
 <template>
     <div ref="root" class="relative min-w-0">
         <label :for="`${id}-input`" class="sr-only" v-text="label"></label>
-        <div class="relative flex min-h-12 flex-wrap items-center gap-1 rounded-lg border-2 border-teal-600 py-1 pl-2 pr-12 transition-colors focus-within:bg-teal-800/50 focus-within:border-teal-500">
+        <div class="relative flex min-h-12 flex-wrap items-center gap-1 rounded-lg border-2 border-teal-600 py-1 ps-2 pe-12 transition-colors focus-within:bg-teal-800/50 focus-within:border-teal-500">
             <span
                 v-for="option in selectedOptions"
                 :key="String(option.value)"
@@ -193,7 +193,7 @@ onBeforeUnmount(() => document.removeEventListener('pointerdown', onDocumentPoin
                 <span class="truncate" v-text="option.label"></span>
                 <button
                     type="button"
-                    class="ml-1 flex size-5 shrink-0 items-center justify-center rounded text-teal-200 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-300"
+                    class="ml-1 flex size-5 shrink-0 items-center justify-center rounded text-teal-200 hover:bg-teal-700 focus:outline-hidden focus:ring-2 focus:ring-teal-300"
                     :aria-label="`Remove ${option.label}`"
                     @mousedown.prevent
                     @click="removeOption(option.value)"
@@ -214,7 +214,7 @@ onBeforeUnmount(() => document.removeEventListener('pointerdown', onDocumentPoin
                 :aria-activedescendant="activeOptionId"
                 aria-autocomplete="list"
                 :placeholder="label"
-                class="form-input min-w-[8rem] flex-1 border-0 bg-transparent px-1 text-teal-200 placeholder:text-teal-500 focus:border-0 focus:ring-0"
+                class="form-input min-w-32 flex-1 border-0 bg-transparent px-1 text-teal-200 placeholder:text-teal-500 focus:border-0 focus:ring-0"
                 @focus="openList"
                 @input="openList"
                 @keydown="onKeydown"
@@ -222,7 +222,7 @@ onBeforeUnmount(() => document.removeEventListener('pointerdown', onDocumentPoin
             <button
                 v-if="selectedValues.length > 0"
                 type="button"
-                class="absolute right-1 top-1 flex h-10 w-8 shrink-0 items-center justify-center rounded text-teal-300 hover:bg-teal-700 hover:text-teal-100 focus:outline-none focus:ring-2 focus:ring-teal-300"
+                class="absolute right-1 top-1 flex h-10 w-8 shrink-0 items-center justify-center rounded text-teal-300 hover:bg-teal-700 hover:text-teal-100 focus:outline-hidden focus:ring-2 focus:ring-teal-300"
                 :aria-label="`Clear ${label.toLocaleLowerCase()} selection`"
                 title="Clear selection"
                 @click="clearSelection"

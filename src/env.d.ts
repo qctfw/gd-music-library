@@ -1,6 +1,3 @@
 /// <reference path="../.astro/types.d.ts" />
-type Runtime = import("@astrojs/cloudflare").Runtime<Env>;
-
-declare namespace App {
-	interface Locals extends Runtime {}
-}
+/// <reference types="@unplugin-pwa/core/info" />
+/// <reference types="@unplugin-pwa/core/vanillajs" />

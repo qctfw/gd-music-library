@@ -174,7 +174,7 @@ const onSubmitPageInput = (event: Event) => {
             </div>
             <div v-if="totalPages > 0" class="h-max flex flex-col md:flex-row gap-2">
                 <form @submit.prevent="onSubmitPageInput">
-                    <input v-model="pageInput" type="number" name="page" placeholder="Page" min="1" :max="totalPages" class="form-input w-full md:w-24 rounded bg-transparent border-teal-600 outline-none text-teal-100 placeholder:text-teal-500 placeholder:italic" />
+                    <input v-model="pageInput" type="number" name="page" placeholder="Page" min="1" :max="totalPages" class="form-input w-full md:w-24 rounded bg-transparent border-teal-600 outline-hidden text-teal-100 placeholder:text-teal-500 placeholder:italic" />
                 </form>
                 <div class="flex flex-row gap-2">
                     <button class="border-2 border-teal-700 hover:bg-teal-700 text-teal-100 p-2 rounded" @click="prevPage">Previous</button>

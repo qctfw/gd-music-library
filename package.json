@@ -2,6 +2,7 @@
   "name": "gd-music-library",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@10.33.2",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -12,31 +13,26 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@astrojs/cloudflare": "^11.2.0",
-    "@astrojs/tailwind": "^5.1.5",
-    "@astrojs/vue": "^4.5.3",
-    "@astrolib/seo": "1.0.0-beta.8",
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/vue": "^7.1.6",
     "@nanostores/vue": "^0.10.0",
     "@savaryna/tailwindcss-material-symbols": "^1.3.1",
     "@tailwindcss/forms": "^0.5.11",
-    "astro": "^4.16.19",
+    "@tailwindcss/vite": "^4.3.5",
+    "astro": "^7.4.12",
     "fflate": "^0.8.3",
     "filesize": "^10.1.6",
     "js-base64": "^3.9.6",
     "nanostores": "^0.11.4",
-    "sharp": "^0.33.5",
-    "tailwindcss": "^3.4.19",
-    "typescript": "^5.9.3",
-    "vue": "^3.5.41"
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^6.0.3",
+    "vue": "^3.5.45"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260702.1",
-    "@vite-pwa/astro": "^1.2.0",
+    "@unplugin-pwa/core": "^0.0.6",
+    "@vite-pwa/astro": "^2.0.2",
     "tailwind-scrollbar": "^4.0.2",
-    "vite-plugin-pwa": "^1.3.0",
-    "workbox-build": "7.4.1",
-    "workbox-window": "7.4.1",
-    "wrangler": "^3.114.17"
+    "wrangler": "^4.162.0"
   }
 }

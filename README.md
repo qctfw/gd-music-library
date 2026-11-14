@@ -4,8 +4,8 @@ Geometry Dash Music Library on the browser!
 
 ## Requirements
 
-- [Node.js](https://nodejs.org) 20+
-- [pnpm](https://pnpm.io/) 9+
+- [Node.js](https://nodejs.org) 22.23.4+
+- [pnpm](https://pnpm.io/) 10+
 
 ## Development
 
