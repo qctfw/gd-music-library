@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref, watch, useTemplateRef, nextTick } from 'vue'
 
-import { query } from '../stores/filter'
+import { isFiltered, query } from '../stores/filter'
 
 import FilterModal from './modals/FilterModal.vue'
+import { useStore } from '@nanostores/vue'
+
+const hasFilters = useStore(isFiltered)
 
 const filterModalShowed = ref(false)
 const searchQuery = ref('')
@@ -39,8 +42,9 @@ function onFilterButtonClick() {
                 <span class="icon icon-rounded">close</span>
             </button>
         </div>
-        <button ref="filterBtn" class="flex items-center justify-center w-12 text-teal-300 border-2 border-teal-600 rounded-lg hover:bg-teal-600 hover:text-teal-100" @click="onFilterButtonClick">
+        <button ref="filterBtn" class="relative flex items-center justify-center w-12 text-teal-300 border-2 border-teal-600 rounded-lg hover:bg-teal-600 hover:text-teal-100" @click="onFilterButtonClick">
             <span class="icon icon-rounded">filter_alt</span>
+            <span v-if="hasFilters" class="absolute bottom-3 end-2 icon icon-rounded icon-filled" style="--ms-optical-size: 10;">circle</span>
         </button>
         <FilterModal
             v-if="filterModalShowed"
