@@ -1,6 +1,7 @@
 import { decompressSync } from 'fflate'
 import { Base64 } from 'js-base64'
 import { atom } from 'nanostores'
+import type { ChangelogMetadata } from '../types/changelog'
 import { isMusicPlatform, MusicPlatform } from '../types/music-platform'
 import type { Artist, ExternalLink, Song, Tag } from '../types/song'
 import { ExternalLinkType, ExternalLinkTypeMeta, isExternalLinkType } from '../types/external-link'
@@ -9,6 +10,7 @@ export const version = atom(0)
 export const artists = atom<Map<number, Artist>>(new Map())
 export const songs = atom<Map<number, Song>>(new Map())
 export const tags = atom<Map<number, Tag>>(new Map())
+export const changelogs = atom<Map<number, ChangelogMetadata>>(new Map())
 
 export const libraryFile = '149-3bdcfa6f196c94fb7d60bea8197978466bb437bae6958af4c674686d4b6a2926.txt'
 
@@ -153,7 +155,34 @@ function processTagPart(data: String) {
 }
 
 function processChangelogPart(data: String) {
-  // TODO: Changelog
+  const parsedData = Base64.decode(data.toString())
+
+  const result: Map<number, ChangelogMetadata> = new Map()
+
+  parsedData.split('$').forEach(value => {
+    const [metadataData, changesData] = value.split(':', 2)
+
+    const [changelogVersion, timestamp, highestSongId] = metadataData.split(',', 3).map(Number)
+
+    const changes = changesData.split(';').map(change => {
+        const [artistId, tags, changesCount] = change.split('~');
+
+        return {
+            artistId: Number(artistId),
+            tags: tags ? tags.split('.').map(Number) : [],
+            count: Number(changesCount),
+        };
+    })
+
+    result.set(changelogVersion, {
+      version: changelogVersion,
+      timestamp: timestamp,
+      highestSongId: highestSongId,
+      changes: changes,
+    })
+  })
+
+  changelogs.set(result)
 }
 
 function processSongLinkPart(data: String) {
@@ -211,8 +240,8 @@ function parseExternalLinkData(data: String[]): Map<number, ExternalLink[]> {
     const arrayData = value.replace(/(\r\n|\n|\r)/gm, '').split(',')
 
     const dataId = Number(arrayData[0])
-    const customTitle = arrayData[2] ? decodeURIComponent(arrayData[2]).trim() : ''
     const typeValue = (isExternalLinkType(arrayData[1]) ? Number(arrayData[1]) : ExternalLinkType.Website) as ExternalLinkType
+    const customTitle = arrayData[2] ? decodeURIComponent(arrayData[2]).trim() : ''
     const externalUrl = new URL(decodeURIComponent(arrayData[3]))
 
     const currentLinks = result.get(dataId) ?? []

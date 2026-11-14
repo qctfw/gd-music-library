@@ -4,10 +4,6 @@
     "dist",
   ],
   "compilerOptions": {
-    "types": [
-      "@unplugin-pwa/core/info",
-      "@unplugin-pwa/core/vanillajs"
-    ],
     "jsx": "preserve"
   }
 }

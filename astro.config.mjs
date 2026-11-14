@@ -13,7 +13,7 @@ export default defineConfig({
   integrations: [
     vue(),
     AstroPWAIntegration({
-      injectRegister: 'script-defer',
+      injectRegister: false,
       registerType: 'autoUpdate',
       manifest: {
         name: 'Geometry Dash Music Library',
