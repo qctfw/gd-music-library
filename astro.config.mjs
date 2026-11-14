@@ -32,17 +32,6 @@ export default defineConfig({
       generateSW: {
         globPatterns: ['**/*.{html,js,json,css,png,webp,jpg,ico,woff2,ttf}'],
         globIgnores: ['android-chrome-192x192.png'],
-        runtimeCaching: [
-          {
-            urlPattern: ({sameOrigin}) => sameOrigin,
-            handler: 'CacheFirst',
-            options: {
-              cacheableResponse: {
-                statuses: [0, 200]
-              },
-            },
-          },
-        ],
       }
     }),
   ],
