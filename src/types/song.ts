@@ -5,9 +5,9 @@ export type Artist = {
 	id: number;
   name: string;
 	/** @deprecated Use `links` instead */
-  website: URL | null;
+  website: string | null;
 	/** @deprecated Use `links` instead */
-  youtubeUrl: URL | null;
+  youtubeUrl: string | null;
   links: ExternalLink[];
 }
 
@@ -22,8 +22,8 @@ export type Song = {
 	musicPlatform: MusicPlatform;
   extraArtistIds: number[];
 	/** @deprecated Use `links` instead */
-	url: string|null;
-	isNew: boolean;
+  url: string | null;
+  isNew: boolean;
 	priorityOrder: number;
   songNumber: number;
 	links: ExternalLink[],
@@ -37,5 +37,5 @@ export type Tag = {
 export type ExternalLink = {
   title: string;
   typeId: ExternalLinkType;
-  url: URL;
+  url: string;
 }

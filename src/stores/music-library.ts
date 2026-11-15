@@ -1,10 +1,9 @@
-import { decompressSync } from 'fflate'
-import { Base64 } from 'js-base64'
 import { atom } from 'nanostores'
+
 import type { ChangelogMetadata } from '../types/changelog'
-import { isMusicPlatform, MusicPlatform } from '../types/music-platform'
-import type { Artist, ExternalLink, Song, Tag } from '../types/song'
-import { ExternalLinkType, ExternalLinkTypeMeta, isExternalLinkType } from '../types/external-link'
+import type { Artist, Song, Tag } from '../types/song'
+import type { MusicLibraryData, MusicLibraryWorkerRequest, MusicLibraryWorkerResponse } from './music-library-parser'
+import { decodeMusicLibrary, parseMusicLibrary } from './music-library-parser'
 
 export const version = atom(0)
 export const artists = atom<Map<number, Artist>>(new Map())
@@ -14,246 +13,66 @@ export const changelogs = atom<Map<number, ChangelogMetadata>>(new Map())
 
 export const libraryFile = '149-3bdcfa6f196c94fb7d60bea8197978466bb437bae6958af4c674686d4b6a2926.txt'
 
-export const getMusicLibraryData = async (): Promise<Uint8Array> => {
-  const versionFile = libraryFile
+const libraryFileUrl = '/datas/music-library/' + libraryFile
 
-  return fetch('/datas/music-library/' + versionFile)
-    .then(res => res.text())
-    .then(res => Base64.toUint8Array(res))
-    .then(res => decompressSync(res))
-}
-
-export const processMusicLibraryData = (rawData: Uint8Array) => {
-  const text = new TextDecoder().decode(rawData)
-
-  text.split('|').forEach((part, index) => processPart(part, index))
-}
-
-function processPart(data: String, partIndex: number) {
-  switch (partIndex) {
-    case 0:
-      version.set(Number(data))
-      break
-    case 1:
-      processArtistPart(data)
-      break
-    case 2:
-      processSongPart(data)
-      break
-    case 3:
-      processTagPart(data)
-      break
-    case 4:
-      processChangelogPart(data)
-      break
-    case 5:
-      processSongLinkPart(data)
-      break
-    case 6:
-      processArtistLinkPart(data)
-      break
-    default:
-      console.error('Unknown Data Part')
-      break
+export const getMusicLibraryData = async (): Promise<MusicLibraryData> => {
+  if (typeof Worker !== 'undefined') {
+    try {
+      return await fetchMusicLibraryInWorker(libraryFileUrl)
+    } catch (error) {
+      console.warn('Music library worker failed, falling back to the main thread.', error)
+    }
   }
+
+  return fetchMusicLibraryOnMainThread(libraryFileUrl)
 }
 
-function processArtistPart(data: String) {
-  const result: Map<number, Artist> = new Map()
-  const artistArray = data.split(';')
+export const processMusicLibraryData = (data: MusicLibraryData): void => {
+  artists.set(data.artists)
+  songs.set(data.songs)
+  tags.set(data.tags)
+  changelogs.set(data.changelogs)
 
-  artistArray.forEach(value => {
-    if (value.trim().length <= 0) {
-      return
+  // Set the version last so the UI only reveals the library once it is complete.
+  version.set(data.version)
+}
+
+export const loadMusicLibrary = async (): Promise<void> => {
+  processMusicLibraryData(await getMusicLibraryData())
+}
+
+function fetchMusicLibraryInWorker(url: string): Promise<MusicLibraryData> {
+  return new Promise((resolve, reject) => {
+    const worker = new Worker(new URL('../workers/music-library.worker.ts', import.meta.url), { type: 'module' })
+
+    worker.onmessage = (event: MessageEvent<MusicLibraryWorkerResponse>) => {
+      worker.terminate()
+
+      if (event.data.ok) {
+        resolve(event.data.data)
+      } else {
+        reject(new Error(event.data.error))
+      }
     }
 
-    const arrayData = value.split(',')
-    const artistId = Number(arrayData[0])
-    const artistName = arrayData[1]
-    const artistWebsite = arrayData[2].trim()
-    const artistYouTubeId = arrayData[3].trim()
-
-    result.set(artistId, {
-      id: artistId,
-      name: artistName,
-      website: artistWebsite.length > 0 ? new URL(decodeURIComponent(artistWebsite)) : null,
-      youtubeUrl: artistYouTubeId.length > 0 ? new URL('https://www.youtube.com/channel/' + artistYouTubeId) : null,
-      links: [],
-    });
-  })
-
-  artists.set(result)
-}
-
-function processSongPart(data: String) {
-  const result: Map<number, Song> = new Map()
-  const songArray = data.split(';')
-
-  songArray.forEach(value => {
-    if (value.trim().length <= 0) {
-      return
+    worker.onerror = (event) => {
+      worker.terminate()
+      reject(new Error('Music library worker failed: ' + event.message))
     }
 
-    const arrayData = value.replace(/(\r\n|\n|\r)/gm, '').split(',')
-    const songId = Number(arrayData[0])
-    const songName = arrayData[1].trim()
-    const artistId = Number(arrayData[2])
-    const songFilesize = Number(arrayData[3])
-    const songDuration = Number(arrayData[4])
-    const songTags = arrayData[5] && arrayData[5] !== '.' ? arrayData[5].replace(/^\.|\.$/g, '').split('.').map(v => Number(v)) : []
-
-    const musicPlatformValue = Number(arrayData[6])
-    const musicPlatform = isMusicPlatform(musicPlatformValue) ? musicPlatformValue : MusicPlatform.None
-
-    const extraArtistIds = arrayData[7] ? arrayData[7].split('.').map(v => Number(v)) : []
-    const songUrl = decodeURIComponent(arrayData[8]).replace(/\?.+/g, '')
-    const isNewSong = arrayData[9] == '1'
-    const songPriorityOrder = Number(arrayData[10])
-    const songnumber = Number(arrayData[11])
-
-    result.set(songId, {
-      id: songId,
-      name: songName,
-      searchName: songName.toLocaleLowerCase(),
-      artistId: artistId,
-      filesize: songFilesize,
-      duration: songDuration,
-      tagIds: songTags,
-      musicPlatform: musicPlatform,
-      extraArtistIds: extraArtistIds,
-      url: songUrl && songUrl !== '://' ? songUrl : null,
-      isNew: isNewSong,
-      priorityOrder: songPriorityOrder,
-      songNumber: songnumber,
-      links: [],
-    })
+    const request: MusicLibraryWorkerRequest = { url }
+    worker.postMessage(request)
   })
-
-  songs.set(result)
 }
 
-function processTagPart(data: String) {
-  const result: Map<number, Tag> = new Map()
-  const tagArray = data.split(';')
+async function fetchMusicLibraryOnMainThread(url: string): Promise<MusicLibraryData> {
+  const response = await fetch(url)
 
-  tagArray.forEach(value => {
-    if (value.trim().length <= 0) {
-      return
-    }
+  if (!response.ok) {
+    throw new Error(`Failed to fetch music library: ${response.status} ${response.statusText}`)
+  }
 
-    const arrayData = value.split(',')
-    const tagId = Number(arrayData[0])
-    const tagName = arrayData[1].replace(/\p{L}+/gu, word => word.charAt(0).toLocaleUpperCase() + word.slice(1).toLocaleLowerCase())
+  const encoded = await response.text()
 
-    result.set(tagId, {
-      id: tagId,
-      name: tagName,
-    })
-  })
-
-  tags.set(result)
-}
-
-function processChangelogPart(data: String) {
-  const parsedData = Base64.decode(data.toString())
-
-  const result: Map<number, ChangelogMetadata> = new Map()
-
-  parsedData.split('$').forEach(value => {
-    const [metadataData, changesData] = value.split(':', 2)
-
-    const [changelogVersion, timestamp, highestSongId] = metadataData.split(',', 3).map(Number)
-
-    const changes = changesData.split(';').map(change => {
-        const [artistId, tags, changesCount] = change.split('~');
-
-        return {
-            artistId: Number(artistId),
-            tags: tags ? tags.split('.').map(Number) : [],
-            count: Number(changesCount),
-        };
-    })
-
-    result.set(changelogVersion, {
-      version: changelogVersion,
-      timestamp: timestamp,
-      highestSongId: highestSongId,
-      changes: changes,
-    })
-  })
-
-  changelogs.set(result)
-}
-
-function processSongLinkPart(data: String) {
-  const songLinkArray = data.split(';')
-
-  const parsedData = parseExternalLinkData(songLinkArray)
-
-  const result = songs.get()
-
-  parsedData.forEach((links, songs) => {
-    const currentSong = result.get(songs)
-
-    if (!currentSong) {
-      return
-    }
-
-    currentSong.links = links
-
-    result.set(songs, currentSong)
-  })
-
-  songs.set(result)
-}
-
-function processArtistLinkPart(data: String) {
-  const artistLinkArray = data.split(';')
-
-  const parsedData = parseExternalLinkData(artistLinkArray)
-
-  const result = artists.get()
-
-  parsedData.forEach((links, artistId) => {
-    const currentArtist = result.get(artistId)
-
-    if (!currentArtist) {
-      return
-    }
-
-    currentArtist.links = links
-
-    result.set(artistId, currentArtist)
-  })
-
-  artists.set(result)
-}
-
-function parseExternalLinkData(data: String[]): Map<number, ExternalLink[]> {
-  const result: Map<number, ExternalLink[]> = new Map()
-
-  data.forEach(value => {
-    if (value.trim().length <= 0) {
-      return;
-    }
-
-    const arrayData = value.replace(/(\r\n|\n|\r)/gm, '').split(',')
-
-    const dataId = Number(arrayData[0])
-    const typeValue = (isExternalLinkType(arrayData[1]) ? Number(arrayData[1]) : ExternalLinkType.Website) as ExternalLinkType
-    const customTitle = arrayData[2] ? decodeURIComponent(arrayData[2]).trim() : ''
-    const externalUrl = new URL(decodeURIComponent(arrayData[3]))
-
-    const currentLinks = result.get(dataId) ?? []
-
-    currentLinks.push({
-      title: customTitle.length > 0 ? customTitle : ExternalLinkTypeMeta[typeValue].name,
-      typeId: typeValue,
-      url: externalUrl,
-    })
-
-    result.set(dataId, currentLinks)
-  })
-
-  return result;
+  return parseMusicLibrary(decodeMusicLibrary(encoded))
 }

@@ -92,7 +92,7 @@ const keyDownEvents = (event: KeyboardEvent) => {
                 <div v-for="artist of song?.artists" class="flex flex-col items-center gap-1">
                     <p class="text-lg md:text-xl 2xl:text-2xl font-semibold">{{ artist?.name }}</p>
                     <div v-if="(artist?.links?.length ?? 0) > 0" class="flex flex-row flex-wrap items-center justify-center gap-x-2 gap-y-1">
-                        <a v-for="linkData in artist?.links" :href="linkData.url.href" :title="artist?.name + '\'s ' + linkData.title" rel="noopener noreferrer" target="_blank" class="flex flex-row gap-x-2 items-center border-2 border-teal-700 hover:bg-teal-700 text-teal-100 px-3 py-1.5 rounded">
+                        <a v-for="linkData in artist?.links" :href="linkData.url" :title="artist?.name + '\'s ' + linkData.title" rel="noopener noreferrer" target="_blank" class="flex flex-row gap-x-2 items-center border-2 border-teal-700 hover:bg-teal-700 text-teal-100 px-3 py-1.5 rounded">
                             <span v-if="linkData.typeId === ExternalLinkType.Website" class="icon icon-filled">globe</span>
                             <img v-else :src="ExternalLinkTypeMeta[linkData.typeId].logoUrl?.src" class="h-6" :alt="linkData.title + ' Icon'" />
                             <span v-text="linkData.title"></span>
@@ -103,7 +103,7 @@ const keyDownEvents = (event: KeyboardEvent) => {
             <div v-if="(song?.links?.length ?? 0) > 0" class="flex flex-col gap-1">
                 <h4 class="text-lg md:text-xl xl:text-2xl font-semibold text-center text-teal-200">Listen / Download</h4>
                 <div class="flex flex-row flex-wrap items-center justify-center gap-x-2 gap-y-1">
-                    <a v-for="linkData in song?.links" :href="linkData.url.href" :title="linkData.title" rel="noopener noreferrer" target="_blank" class="flex flex-row gap-x-2 items-center border-2 border-teal-700 hover:bg-teal-700 text-teal-100 px-3 py-1.5 rounded">
+                    <a v-for="linkData in song?.links" :href="linkData.url" :title="linkData.title" rel="noopener noreferrer" target="_blank" class="flex flex-row gap-x-2 items-center border-2 border-teal-700 hover:bg-teal-700 text-teal-100 px-3 py-1.5 rounded">
                         <span v-if="linkData.typeId === ExternalLinkType.Website" class="icon icon-filled">globe</span>
                         <img v-else :src="ExternalLinkTypeMeta[linkData.typeId].logoUrl?.src" class="h-6" :alt="linkData.title + ' Icon'" />
                         <span v-text="linkData.title"></span>
