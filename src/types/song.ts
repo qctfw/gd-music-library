@@ -3,8 +3,10 @@ import type { MusicPlatform } from "./music-platform";
 
 export type Artist = {
 	id: number;
-	name: string;
-	website: URL | null;
+  name: string;
+	/** @deprecated Use `links` instead */
+  website: URL | null;
+	/** @deprecated Use `links` instead */
   youtubeUrl: URL | null;
   links: ExternalLink[];
 }
@@ -18,7 +20,8 @@ export type Song = {
 	duration: number;
 	tagIds: number[];
 	musicPlatform: MusicPlatform;
-	extraArtistIds: number[];
+  extraArtistIds: number[];
+	/** @deprecated Use `links` instead */
 	url: string|null;
 	isNew: boolean;
 	priorityOrder: number;

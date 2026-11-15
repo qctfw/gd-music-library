@@ -10,6 +10,8 @@ export const MusicPlatform = {
     Chompo: 2,
 } as const
 
+const musicPlatformValues: ReadonlySet<number> = new Set(Object.values(MusicPlatform))
+
 export type MusicPlatform = (typeof MusicPlatform)[keyof typeof MusicPlatform]
 
 export type MusicPlatformItem = {
@@ -41,5 +43,5 @@ export const MusicPlatformMeta: Record<MusicPlatform, MusicPlatformItem> = {
 }
 
 export function isMusicPlatform(value: unknown): value is MusicPlatform {
-    return Object.values(MusicPlatform).includes(Number(value) as MusicPlatform)
+    return musicPlatformValues.has(Number(value))
 }

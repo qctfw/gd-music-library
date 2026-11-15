@@ -29,6 +29,8 @@ export const ExternalLinkType = {
   ItchIo: 14,
 } as const
 
+const externalLinkTypeValues: ReadonlySet<number> = new Set(Object.values(ExternalLinkType))
+
 export type ExternalLinkType = (typeof ExternalLinkType)[keyof typeof ExternalLinkType]
 
 export type ExternalLinkTypeItem = {
@@ -96,5 +98,5 @@ export const ExternalLinkTypeMeta: Record<ExternalLinkType, ExternalLinkTypeItem
 }
 
 export function isExternalLinkType(value: unknown): value is ExternalLinkType {
-    return Object.values(ExternalLinkType).includes(Number(value) as ExternalLinkType)
+    return externalLinkTypeValues.has(Number(value))
 }
