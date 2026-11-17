@@ -3,7 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from
 import { useStore } from '@nanostores/vue'
 
 import { artists, tags } from '../../stores/music-library'
-import { MusicPlatformMeta } from '../../types/music-platform'
+import { MusicPlatformMeta } from '../../types/music-platform-meta'
 import { artistIds, tagIds, musicPlatformId, onlyNewSongs } from '../../stores/filter'
 
 import SearchSelect from '../SearchSelect.vue'

@@ -5,8 +5,10 @@ import { useStore } from '@nanostores/vue'
 
 import { songs, artists, tags } from '../../stores/music-library'
 
-import { MusicPlatform, MusicPlatformMeta } from '../../types/music-platform'
-import { ExternalLinkType, ExternalLinkTypeMeta } from '../../types/external-link'
+import { MusicPlatform } from '../../types/music-platform'
+import { MusicPlatformMeta } from '../../types/music-platform-meta'
+import { ExternalLinkType } from '../../types/external-link'
+import { ExternalLinkTypeMeta } from '../../types/external-link-meta'
 
 const props = defineProps<{
     id: number,

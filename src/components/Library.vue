@@ -8,7 +8,8 @@ import { query, artistIds, tagIds, musicPlatformId, onlyNewSongs } from '../stor
 
 import SongDetailModal from './modals/SongDetailModal.vue'
 
-import { MusicPlatform, MusicPlatformMeta } from '../types/music-platform.ts'
+import { MusicPlatform } from '../types/music-platform.ts'
+import { MusicPlatformMeta } from '../types/music-platform-meta.ts'
 
 const props = defineProps<{
   version?: number

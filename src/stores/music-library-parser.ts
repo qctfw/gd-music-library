@@ -2,7 +2,7 @@ import { decompressSync } from 'fflate'
 import { Base64 } from 'js-base64'
 
 import type { ChangelogMetadata } from '../types/changelog'
-import { ExternalLinkType, ExternalLinkTypeMeta, isExternalLinkType } from '../types/external-link'
+import { ExternalLinkType, ExternalLinkTypeName, isExternalLinkType } from '../types/external-link'
 import { isMusicPlatform, MusicPlatform } from '../types/music-platform'
 import type { Artist, ExternalLink, Song, Tag } from '../types/song'
 
@@ -204,7 +204,7 @@ function parseExternalLinkData(data: string): Map<number, ExternalLink[]> {
     const currentLinks = result.get(dataId) ?? []
 
     currentLinks.push({
-      title: customTitle.length > 0 ? customTitle : ExternalLinkTypeMeta[typeValue].name,
+      title: customTitle.length > 0 ? customTitle : ExternalLinkTypeName[typeValue],
       typeId: typeValue,
       url: externalUrl,
     })

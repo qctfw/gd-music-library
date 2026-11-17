@@ -1,17 +1,3 @@
-import BandcampLogo from '../assets/images/bandcamp.webp'
-import DiscordLogo from '../assets/images/discord.svg'
-import FacebookLogo from '../assets/images/facebook.svg'
-import InstagramLogo from '../assets/images/instagram.webp'
-import ItchIoLogo from '../assets/images/itchio.svg'
-import NCSLogo from '../assets/images/ncs.png'
-import NewgroundsLogo from '../assets/images/newgrounds.webp'
-import SoundcloudLogo from '../assets/images/soundcloud.webp'
-import SpotifyLogo from '../assets/images/spotify.webp'
-import TikTokLogo from '../assets/images/tiktok.svg'
-import TwitchLogo from '../assets/images/twitch.svg'
-import TwitterLogo from '../assets/images/twitter.svg'
-import YouTubeLogo from '../assets/images/youtube.webp'
-
 export const ExternalLinkType = {
   YouTube: 1,
   Newgrounds: 2,
@@ -38,63 +24,21 @@ export type ExternalLinkTypeItem = {
   logoUrl: ImageMetadata | null,
 }
 
-export const ExternalLinkTypeMeta: Record<ExternalLinkType, ExternalLinkTypeItem> = {
-  1: {
-    name: 'YouTube',
-    logoUrl: YouTubeLogo,
-  },
-  2: {
-    name: 'Newgrounds',
-    logoUrl: NewgroundsLogo,
-  },
-  3: {
-    name: 'Soundcloud',
-    logoUrl: SoundcloudLogo,
-  },
-  4: {
-    name: 'Spotify',
-    logoUrl: SpotifyLogo,
-  },
-  5: {
-    name: 'Bandcamp',
-    logoUrl: BandcampLogo,
-  },
-  6: {
-    name: 'NCS',
-    logoUrl: NCSLogo,
-  },
-  7: {
-    name: 'Website',
-    logoUrl: null,
-  },
-  8: {
-    name: 'Instagram',
-    logoUrl: InstagramLogo,
-  },
-  9: {
-    name: 'Twitter',
-    logoUrl: TwitterLogo,
-  },
-  10: {
-    name: 'Facebook',
-    logoUrl: FacebookLogo,
-  },
-  11: {
-    name: 'Twitch',
-    logoUrl: TwitchLogo,
-  },
-  12: {
-    name: 'Discord',
-    logoUrl: DiscordLogo,
-  },
-  13: {
-    name: 'TikTok',
-    logoUrl: TikTokLogo,
-  },
-  14: {
-    name: 'Itch.io',
-    logoUrl: ItchIoLogo,
-  },
+export const ExternalLinkTypeName: Record<ExternalLinkType, string> = {
+  1: 'YouTube',
+  2: 'Newgrounds',
+  3: 'Soundcloud',
+  4: 'Spotify',
+  5: 'Bandcamp',
+  6: 'NCS',
+  7: 'Website',
+  8: 'Instagram',
+  9: 'Twitter',
+  10: 'Facebook',
+  11: 'Twitch',
+  12: 'Discord',
+  13: 'TikTok',
+  14: 'Itch.io',
 }
 
 export function isExternalLinkType(value: unknown): value is ExternalLinkType {
